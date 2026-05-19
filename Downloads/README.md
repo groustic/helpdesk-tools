@@ -57,8 +57,53 @@ Every action is written to `AD-UserManagement.log` in the same directory as the 
 
 ---
 
+## ticketing.py
+
+A command-line help desk ticketing system built in Python. Stores tickets as JSON locally and supports the full lifecycle of a support ticket from creation to closure.
+
+### Features
+
+- Create tickets with title, description, priority, category, submitter, and assignee
+- View all tickets in a color-coded table
+- View full ticket detail including notes and update history
+- Update ticket status, priority, assignee, and add notes
+- Close tickets with an optional closing note
+- Search tickets by any text field
+- Filter tickets by status, priority, or category
+- Stats and reporting view with breakdowns by status, priority, and category, plus a flag for any open critical tickets
+- Automatic logging of all actions to `tickets.log`
+
+### Requirements
+
+- Python 3
+- No external dependencies
+
+### Usage
+
+```bash
+python ticketing.py
+```
+
+Tickets are stored in `tickets.json` in the same directory. The interactive menu walks through all available actions.
+
+### Priority Levels
+
+- Low
+- Medium
+- High
+- Critical
+
+### Categories
+
+- Hardware
+- Software
+- Network
+- Account
+- Other
+
+---
+
 ## Coming Soon
 
-- Help desk ticketing system
 - Log parser for failed logins and suspicious auth events
 - Vulnerability scanner for common misconfigurations
