@@ -88,22 +88,65 @@ Tickets are stored in `tickets.json` in the same directory. The interactive menu
 
 ### Priority Levels
 
-- Low
-- Medium
-- High
-- Critical
+- Low, Medium, High, Critical
 
 ### Categories
 
-- Hardware
-- Software
-- Network
-- Account
-- Other
+- Hardware, Software, Network, Account, Other
+
+---
+
+## log_parser.py
+
+A Python script that parses Linux and Windows auth logs for suspicious login activity. Supports both formats in a single run and outputs a formatted security report.
+
+### Features
+
+- Parses Linux auth logs (`/var/log/auth.log` format)
+- Parses Windows Security Event Log CSV exports (Event IDs 4624 and 4625)
+- Detects brute force attempts by source IP
+- Flags high-failure usernames
+- Flags successful logins outside business hours (7am-7pm by default)
+- Flags logins from unknown users when a known-users list is provided
+- Top 10 attacking IPs ranked by failure count
+- Saves a full report to `log_report.txt`
+
+### Requirements
+
+- Python 3
+- No external dependencies
+- Windows logs must be exported as CSV from Event Viewer with columns: TimeCreated, EventId, AccountName, IpAddress
+
+### Usage
+
+```bash
+# Parse a Linux auth log
+python log_parser.py /var/log/auth.log
+
+# Parse a Windows CSV export
+python log_parser.py security_events.csv
+
+# Parse both at once
+python log_parser.py auth.log security_events.csv
+
+# Custom thresholds and known users
+python log_parser.py auth.log --brute-threshold 3 --brute-window 5 --known-users alice bob jdoe
+
+# Print to terminal only, skip saving report file
+python log_parser.py auth.log --no-report
+```
+
+### Flags
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--brute-threshold` | 5 | Failed logins before flagging as brute force |
+| `--brute-window` | 10 | Time window in minutes for brute force detection |
+| `--known-users` | none | Space-separated list of expected usernames |
+| `--no-report` | false | Skip saving report to file |
 
 ---
 
 ## Coming Soon
 
-- Log parser for failed logins and suspicious auth events
 - Vulnerability scanner for common misconfigurations
